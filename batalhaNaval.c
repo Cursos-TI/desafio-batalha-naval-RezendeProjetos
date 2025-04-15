@@ -10,30 +10,59 @@ int main() {
         }
     }
 
-    // Definir posições dos navios (tamanho 3)
-    // Navio 1: horizontal, começando na linha 2, coluna 3 (D)
-    tabuleiro[2][3] = 3;
-    tabuleiro[2][4] = 3;
-    tabuleiro[2][5] = 3;
+  // === POSICIONAMENTO DOS 4 NAVIOS (tamanho 3) ===
+    
+    // Navio 1: horizontal a partir de (2,3)
+    if (2 < 10 && 3+2 < 10 &&
+        tabuleiro[2][3] == 0 &&
+        tabuleiro[2][4] == 0 &&
+        tabuleiro[2][5] == 0) {
+        tabuleiro[2][3] = 3;
+        tabuleiro[2][4] = 3;
+        tabuleiro[2][5] = 3;
+    }
 
-    // Navio 2: vertical, começando na linha 0, coluna 7 (H)
-    tabuleiro[0][7] = 3;
-    tabuleiro[1][7] = 3;
-    tabuleiro[2][7] = 3;
+    // Navio 2: vertical a partir de (0,7)
+    if (0+2 < 10 && 7 < 10 &&
+        tabuleiro[0][7] == 0 &&
+        tabuleiro[1][7] == 0 &&
+        tabuleiro[2][7] == 0) {
+        tabuleiro[0][7] = 3;
+        tabuleiro[1][7] = 3;
+        tabuleiro[2][7] = 3;
+    }
 
-    // Mostrar o tabuleiro na tela
-    // Mostrar letras A-J como cabeçalho
+    // Navio 3: diagonal ↘ a partir de (4,0)
+    if (4+2 < 10 && 0+2 < 10 &&
+        tabuleiro[4][0] == 0 &&
+        tabuleiro[5][1] == 0 &&
+        tabuleiro[6][2] == 0) {
+        tabuleiro[4][0] = 3;
+        tabuleiro[5][1] = 3;
+        tabuleiro[6][2] = 3;
+    }
+
+    // Navio 4: diagonal ↙ a partir de (2,6)
+    if (2+2 < 10 && 6-2 >= 0 &&
+        tabuleiro[2][6] == 0 &&
+        tabuleiro[3][5] == 0 &&
+        tabuleiro[4][4] == 0) {
+        tabuleiro[2][6] = 3;
+        tabuleiro[3][5] = 3;
+        tabuleiro[4][4] = 3;
+    }
+
+    // === EXIBIÇÃO DO TABULEIRO ===
     printf("   ");
     for (int letra = 0; letra < 10; letra++) {
-        printf(" %c ", 'A' + letra);
+        printf(" %c ", 'A' + letra); // Cabeçalho com letras
     }
     printf("\n");
 
-    // Mostrar números das linhas e conteúdo do tabuleiro
     for (int linha = 0; linha < 10; linha++) {
-        printf("%2d ", linha);
+        printf("%2d ", linha); // Número da linha
         for (int coluna = 0; coluna < 10; coluna++) {
-            printf(" %d ", tabuleiro[linha][coluna]);
+            printf(" %d ", tabuleiro[linha][coluna]); // Mostra valor
         }
         printf("\n");
     }
