@@ -97,7 +97,6 @@ int main() {
     // Inicializa o tabuleiro com água (0)
     int tabuleiro[TABULEIRO][TABULEIRO] = {0};
 
-    // Adiciona navios (3) com pelo menos três casas consecutivas
     tabuleiro[2][3] = 3;  // Navio 1
     tabuleiro[3][3] = 3;
     tabuleiro[4][3] = 3;
