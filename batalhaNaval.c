@@ -1,71 +1,123 @@
 #include <stdio.h>
 
-int main() {
-    int tabuleiro[10][10];  // Matriz 10x10 para representar o tabuleiro
+#define TABULEIRO 10
+#define CONE 5
+#define CRUZ 5
+#define OCTAEDRO 5
 
-    // Inicializar todo o tabuleiro com 0 (água)
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            tabuleiro[i][j] = 0;
-        }
-    }
-
-  // === POSICIONAMENTO DOS 4 NAVIOS (tamanho 3) ===
-    
-    // Navio 1: horizontal a partir de (2,3)
-    if (2 < 10 && 3+2 < 10 &&
-        tabuleiro[2][3] == 0 &&
-        tabuleiro[2][4] == 0 &&
-        tabuleiro[2][5] == 0) {
-        tabuleiro[2][3] = 3;
-        tabuleiro[2][4] = 3;
-        tabuleiro[2][5] = 3;
-    }
-
-    // Navio 2: vertical a partir de (0,7)
-    if (0+2 < 10 && 7 < 10 &&
-        tabuleiro[0][7] == 0 &&
-        tabuleiro[1][7] == 0 &&
-        tabuleiro[2][7] == 0) {
-        tabuleiro[0][7] = 3;
-        tabuleiro[1][7] = 3;
-        tabuleiro[2][7] = 3;
-    }
-
-    // Navio 3: diagonal ↘ a partir de (4,0)
-    if (4+2 < 10 && 0+2 < 10 &&
-        tabuleiro[4][0] == 0 &&
-        tabuleiro[5][1] == 0 &&
-        tabuleiro[6][2] == 0) {
-        tabuleiro[4][0] = 3;
-        tabuleiro[5][1] = 3;
-        tabuleiro[6][2] = 3;
-    }
-
-    // Navio 4: diagonal ↙ a partir de (2,6)
-    if (2+2 < 10 && 6-2 >= 0 &&
-        tabuleiro[2][6] == 0 &&
-        tabuleiro[3][5] == 0 &&
-        tabuleiro[4][4] == 0) {
-        tabuleiro[2][6] = 3;
-        tabuleiro[3][5] = 3;
-        tabuleiro[4][4] = 3;
-    }
-
-    // === EXIBIÇÃO DO TABULEIRO ===
-    printf("   ");
-    for (int letra = 0; letra < 10; letra++) {
-        printf(" %c ", 'A' + letra); // Cabeçalho com letras
-    }
-    printf("\n");
-
-    for (int linha = 0; linha < 10; linha++) {
-        printf("%2d ", linha); // Número da linha
-        for (int coluna = 0; coluna < 10; coluna++) {
-            printf(" %d ", tabuleiro[linha][coluna]); // Mostra valor
+// Função para exibir o tabuleiro
+void exibirTabuleiro(int tabuleiro[TABULEIRO][TABULEIRO]) {
+    for (int i = 0; i < TABULEIRO; i++) {
+        for (int j = 0; j < TABULEIRO; j++) {
+            printf("%d ", tabuleiro[i][j]);
         }
         printf("\n");
     }
+}
+
+// Função para criar a área de efeito de cone
+void gerarCone(int tabuleiro[TABULEIRO][TABULEIRO], int origemX, int origemY) {
+    int cone[CONE][CONE] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 0, 0}
+    };
+
+    for (int i = 0; i < CONE; i++) {
+        for (int j = 0; j < CONE; j++) {
+            if (cone[i][j] == 1) {
+                int x = origemX + i - CONE / 2;
+                int y = origemY + j - CONE / 2;
+                if (x >= 0 && x < TABULEIRO && y >= 0 && y < TABULEIRO) {
+                    // Só marca se não for um navio (3)
+                    if (tabuleiro[x][y] != 3) {
+                        tabuleiro[x][y] = 5;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Função para criar a área de efeito de cruz
+void gerarCruz(int tabuleiro[TABULEIRO][TABULEIRO], int origemX, int origemY) {
+    int cruz[CRUZ][CRUZ] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 0, 0}
+    };
+
+    for (int i = 0; i < CRUZ; i++) {
+        for (int j = 0; j < CRUZ; j++) {
+            if (cruz[i][j] == 1) {
+                int x = origemX + i - CRUZ / 2;
+                int y = origemY + j - CRUZ / 2;
+                if (x >= 0 && x < TABULEIRO && y >= 0 && y < TABULEIRO) {
+                    // Só marca se não for um navio (3)
+                    if (tabuleiro[x][y] != 3) {
+                        tabuleiro[x][y] = 5;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Função para criar a área de efeito de octaedro
+void gerarOctaedro(int tabuleiro[TABULEIRO][TABULEIRO], int origemX, int origemY) {
+    int octaedro[OCTAEDRO][OCTAEDRO] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 0, 0}
+    };
+
+    for (int i = 0; i < OCTAEDRO; i++) {
+        for (int j = 0; j < OCTAEDRO; j++) {
+            if (octaedro[i][j] == 1) {
+                int x = origemX + i - OCTAEDRO / 2;
+                int y = origemY + j - OCTAEDRO / 2;
+                if (x >= 0 && x < TABULEIRO && y >= 0 && y < TABULEIRO) {
+                    // Só marca se não for um navio (3)
+                    if (tabuleiro[x][y] != 3) {
+                        tabuleiro[x][y] = 5;
+                    }
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    // Inicializa o tabuleiro com água (0)
+    int tabuleiro[TABULEIRO][TABULEIRO] = {0};
+
+    // Adiciona navios (3) com pelo menos três casas consecutivas
+    tabuleiro[2][3] = 3;  // Navio 1
+    tabuleiro[3][3] = 3;
+    tabuleiro[4][3] = 3;
+
+    tabuleiro[6][7] = 3;  // Navio 2
+    tabuleiro[6][8] = 3;
+    tabuleiro[6][9] = 3;
+
+    // Define as posições de origem das habilidades
+    int origemConeX = 4, origemConeY = 4;
+    int origemCruzX = 5, origemCruzY = 5;
+    int origemOctaedroX = 7, origemOctaedroY = 7;
+
+    // Gerar as áreas de efeito
+    gerarCone(tabuleiro, origemConeX, origemConeY);
+    gerarCruz(tabuleiro, origemCruzX, origemCruzY);
+    gerarOctaedro(tabuleiro, origemOctaedroX, origemOctaedroY);
+
+    // Exibir o tabuleiro final
+    exibirTabuleiro(tabuleiro);
 
     return 0;
 }
